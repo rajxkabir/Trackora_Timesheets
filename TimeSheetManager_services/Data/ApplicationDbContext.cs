@@ -16,11 +16,23 @@ namespace TimeSheetManager_services.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Always call the base method first
             base.OnModelCreating(modelBuilder);
 
+            // --- TRIGGER FIXES ---
+            // Tell EF Core these tables have triggers so it avoids the 'OUTPUT' clause error
+            modelBuilder.Entity<Employee>()
+                .ToTable(tb => tb.HasTrigger("trg_emp_code"));
+
+            modelBuilder.Entity<Team>()
+                .ToTable(tb => tb.HasTrigger("trg_team_code"));
+
+            modelBuilder.Entity<Project>()
+                .ToTable(tb => tb.HasTrigger("trg_proj_code"));
+
+
+            // --- RELATIONSHIP MAPPINGS ---
+
             // 1. Explicitly Map the Team <-> Members relationship
-            // This stops EF from looking for the non-existent 'Teamid' column
             modelBuilder.Entity<Employee>()
                 .HasOne(e => e.Team)
                 .WithMany(t => t.Members)

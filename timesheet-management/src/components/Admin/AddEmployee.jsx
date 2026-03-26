@@ -15,8 +15,6 @@ export default function AddEmployeePage() {
     const [showPassword, setShowPassword] = useState(false);
 
     const roles = ["Developer", "Tester", "Manager", "TeamLead", "HR"];
-    const teamIds = Array.from({ length: 9 }, (_, i) => 1001 + i);
-    const projectIds = Array.from({ length: 9 }, (_, i) => 5001 + i);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -30,7 +28,8 @@ export default function AddEmployeePage() {
         };
 
         try {
-            const response = await fetch("http://localhost:5289/api/Employee/add", {
+            // Using the port from your backend logs
+            const response = await fetch("https://localhost:7181/api/Employee/add", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
@@ -63,7 +62,7 @@ export default function AddEmployeePage() {
                         Add Employee
                     </h1>
                     <p className="mt-2 text-muted-foreground">
-                        Create a new profile and assign initial projects.
+                        Create a new profile and assign internal roles.
                     </p>
                 </div>
 
@@ -74,7 +73,7 @@ export default function AddEmployeePage() {
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                         {Object.keys(form).map((key) => {
                             const label = key.replace("EMP_", "").replace(/_/g, " ");
-                            const isDropdown = ["EMP_ROLE", "EMP_TEAM_ID", "EMP_PROJECT_ID"].includes(key);
+                            const isDropdown = key === "EMP_ROLE";
                             const isPassword = key === "EMP_PASSWORD";
 
                             return (
@@ -91,23 +90,18 @@ export default function AddEmployeePage() {
                                                 onChange={handleChange}
                                                 className="w-full h-11 px-3 rounded-xl bg-background border border-input text-foreground focus:ring-2 focus:ring-ring focus:border-primary outline-none transition-all appearance-none cursor-pointer"
                                             >
-                                                <option value="" className="bg-background text-foreground">Select {label.toLowerCase()}</option>
-                                                {key === "EMP_ROLE" && roles.map(r => <option key={r} value={r} className="bg-background text-foreground">{r}</option>)}
-                                                {key === "EMP_TEAM_ID" && teamIds.map(id => <option key={id} value={id} className="bg-background text-foreground">{id}</option>)}
-                                                {key === "EMP_PROJECT_ID" && projectIds.map(id => <option key={id} value={id} className="bg-background text-foreground">{id}</option>)}
+                                                <option value="">Select {label.toLowerCase()}</option>
+                                                {roles.map(r => <option key={r} value={r}>{r}</option>)}
                                             </select>
                                         ) : (
                                             <>
                                                 <Input
                                                     name={key}
-                                                    value={form[key]} // This ensures the typed text stays in the field
+                                                    value={form[key]}
                                                     onChange={handleChange}
                                                     type={isPassword ? (showPassword ? "text" : "password") : "text"}
                                                     placeholder={`Enter ${label.toLowerCase()}`}
-                                                    /* Added explicit text-foreground to ensure the typed text 
-                                                       doesn't blend into the background.
-                                                    */
-                                                    className={`h-11 rounded-xl bg-background border-input text-foreground !text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-ring transition-all ${isPassword ? "pr-10" : ""}`}
+                                                    className={`h-11 rounded-xl bg-background border-input text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-ring transition-all ${isPassword ? "pr-10" : ""}`}
                                                 />
                                                 {isPassword && (
                                                     <button

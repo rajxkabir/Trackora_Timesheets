@@ -1,4 +1,5 @@
 ﻿import { useState, useMemo, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Added for routing
 import { Plus, Search, Clock, Users, Calendar, Briefcase, Zap, Target } from "lucide-react";
 import { Button, Card, CardContent, Input, Badge } from "../ui";
 import { cn } from "../../lib/utils";
@@ -25,6 +26,7 @@ export function Projects() {
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
     const [filter, setFilter] = useState("all");
+    const navigate = useNavigate(); // Initialize navigation
 
     // Fetch from .NET API
     useEffect(() => {
@@ -70,7 +72,11 @@ export function Projects() {
                         <Target className="w-4 h-4 text-primary" /> {projects.length} Active Deliverables
                     </p>
                 </div>
-                <Button className="gap-2 rounded-xl shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all">
+                {/* ROUTE ADDED HERE */}
+                <Button 
+                    onClick={() => navigate("/add-project")}
+                    className="gap-2 rounded-xl shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all"
+                >
                     <Plus className="w-4 h-4" /> New Project
                 </Button>
             </div>
@@ -79,11 +85,11 @@ export function Projects() {
             <div className="flex flex-col gap-4 sm:flex-row items-center justify-between">
                 <div className="relative flex-1 max-w-md w-full">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                    <Input 
+                    <input 
                         placeholder="Search by project name or client..." 
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-10 h-11 bg-card/50 border-border/50 rounded-xl focus:ring-2 focus:ring-primary/20"
+                        className="pl-10 w-full h-11 bg-card/50 border border-border/50 rounded-xl focus:ring-2 focus:ring-primary/20 outline-none px-4"
                     />
                 </div>
                 <div className="flex bg-card/50 p-1 rounded-xl border border-border/50 overflow-x-auto">

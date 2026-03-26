@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom"; // Added this
 import { Plus, Search, Users, ShieldCheck, Hash, Info, Zap, LayoutGrid } from "lucide-react";
 import {
     Button,
@@ -17,6 +18,7 @@ const statusStyles = {
 };
 
 export function Team() {
+    const navigate = useNavigate(); // Initialize navigation
     const [teams, setTeams] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
@@ -26,7 +28,6 @@ export function Team() {
         const fetchTeams = async () => {
             setLoading(true);
             try {
-                // Ensure this port matches your running .NET backend
                 const response = await fetch("https://localhost:7181/api/Team/all");
                 if (!response.ok) throw new Error("Failed to fetch teams");
                 const data = await response.json();
@@ -40,7 +41,6 @@ export function Team() {
         fetchTeams();
     }, []);
 
-    // Filter logic for search bar
     const filteredTeams = useMemo(() => {
         return teams.filter((t) => {
             const name = t.team_name?.toLowerCase() || "";
@@ -75,7 +75,11 @@ export function Team() {
                         <span className="font-bold text-foreground">{teams.length}</span> active units in the system
                     </p>
                 </div>
-                <Button className="h-12 px-6 gap-2 rounded-2xl shadow-xl shadow-primary/20 hover:shadow-primary/40 transition-all active:scale-95 group">
+                {/* Fixed Navigation Route */}
+                <Button 
+                    onClick={() => navigate("/add-team")}
+                    className="h-12 px-6 gap-2 rounded-2xl shadow-xl shadow-primary/20 hover:shadow-primary/40 transition-all active:scale-95 group bg-primary text-primary-foreground font-bold"
+                >
                     <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" /> 
                     Create New Team
                 </Button>
@@ -103,13 +107,9 @@ export function Team() {
                     {filteredTeams.map((team) => (
                         <Card
                             key={team.id}
-                            className="group relative border-border/40 bg-card/30 backdrop-blur-md hover:border-primary/50 transition-all duration-500 hover:-translate-y-3 overflow-hidden shadow-lg hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)]"
+                            className="group relative border-border/40 bg-card/30 backdrop-blur-md hover:border-primary/50 transition-all duration-500 hover:-translate-y-3 overflow-hidden shadow-lg hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] rounded-3xl"
                         >
-                            {/* The "Glow" Effect */}
-                            <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-purple-600 rounded-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-500 blur" />
-                            
                             <CardContent className="p-8 relative">
-                                {/* Top Badges */}
                                 <div className="flex justify-between items-start mb-6">
                                     <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-indigo-600 flex items-center justify-center text-white text-2xl font-black shadow-lg shadow-primary/30 group-hover:scale-110 transition-transform">
                                         {team.team_name?.[0].toUpperCase()}
@@ -119,7 +119,6 @@ export function Team() {
                                     </Badge>
                                 </div>
 
-                                {/* Title & Code */}
                                 <div className="space-y-1 mb-6">
                                     <h3 className="text-2xl font-black tracking-tight group-hover:text-primary transition-colors">
                                         {team.team_name}
@@ -129,17 +128,16 @@ export function Team() {
                                     </div>
                                 </div>
 
-                                {/* Description */}
                                 <p className="text-sm text-muted-foreground leading-relaxed mb-8 flex items-start gap-2 h-10 line-clamp-2">
                                     <Info className="w-4 h-4 mt-1 shrink-0 text-primary/50" />
-                                    {team.description || "Strategic unit focused on core deliverable tracking and resource management."}
+                                    {team.description || "Operational unit focused on mission-critical deliverables."}
                                 </p>
 
-                                {/* Lead Section */}
+                                {/* Lead Section - Safeguarded */}
                                 <div className="flex items-center gap-4 p-4 rounded-2xl bg-secondary/20 border border-border/50 group-hover:bg-primary/5 group-hover:border-primary/20 transition-all duration-300">
                                     <Avatar className="h-12 w-12 ring-2 ring-primary/20">
                                         <AvatarFallback className="bg-gradient-to-br from-primary/80 to-primary text-white font-bold">
-                                            {team.TeamLead?.EMP_FIRSTNAME?.[0]}{team.TeamLead?.EMP_LASTNAME?.[0] || 'U'}
+                                            {team.TeamLead?.EMP_FIRSTNAME?.[0] || '?'}{team.TeamLead?.EMP_LASTNAME?.[0] || 'U'}
                                         </AvatarFallback>
                                     </Avatar>
                                     <div className="flex flex-col">
@@ -151,7 +149,6 @@ export function Team() {
                                     <ShieldCheck className="w-5 h-5 ml-auto text-primary animate-pulse" />
                                 </div>
 
-                                {/* Progress Footer */}
                                 <div className="mt-8 pt-6 border-t border-border/50 flex items-center justify-between">
                                     <div className="flex flex-col">
                                         <span className="text-[10px] font-bold text-muted-foreground uppercase">Squad Size</span>

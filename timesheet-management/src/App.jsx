@@ -1,5 +1,4 @@
 ﻿import {
-    BrowserRouter,
     Routes,
     Route,
     useLocation,
@@ -15,12 +14,15 @@ import { Dashboard } from "./components/views/Dashboard";
 import { Timesheet } from "./components/views/Timesheet";
 import { Projects } from "./components/views/Projects";
 import { Team } from "./components/views/Team";
-import { Reports } from "./components/views/Reports";
+
 import { cn } from "./lib/utils";
 import Login from "./components/Login";
 import { Employees } from "./components/views/Employees";
 import AddEmployeePage from "./components/Admin/AddEmployee";
 
+// Components for the new routes
+import AddTeamPage from "./components/Admin/AddTeam"; 
+import AddProjectPage from "./components/Admin/AddProject";
 
 /* ================= LAYOUT ================= */
 function AppLayout() {
@@ -40,7 +42,6 @@ function AppLayout() {
 
     return (
         <div className="min-h-screen bg-background">
-            {/* Navbar + Sidebar */}
             {!hideLayout && (
                 <>
                     <Navbar
@@ -50,13 +51,12 @@ function AppLayout() {
 
                     <Sidebar
                         isOpen={sidebarOpen}
-                        activeView={path.split("/")[1]} // better than replace
+                        activeView={path.split("/")[1]} 
                         onViewChange={handleViewChange}
                     />
                 </>
             )}
 
-            {/* Main Content */}
             <main
                 className={cn(
                     !hideLayout && "pt-14 md:pl-64",
@@ -74,10 +74,12 @@ function AppLayout() {
                         <Route path="/timesheet" element={<Timesheet />} />
                         <Route path="/projects" element={<Projects />} />
                         <Route path="/team" element={<Team />} />
-                        <Route path="/reports" element={<Reports />} />
 
-                        <Route path="/add-employee" element={<AddEmployeePage />} />
+                        {/* Admin/Management Routes */}
                         <Route path="/employees" element={<Employees />} />
+                        <Route path="/add-employee" element={<AddEmployeePage />} />
+                        <Route path="/add-team" element={<AddTeamPage />} />
+                        <Route path="/add-project" element={<AddProjectPage />} />
 
                         {/* Default fallback */}
                         <Route path="*" element={<Navigate to="/" />} />
@@ -92,30 +94,17 @@ function AppLayout() {
 
 function LandingPageWrapper() {
     const navigate = useNavigate();
-
-    return (
-        <LandingPage
-            onGetStarted={() => navigate("/login")}
-        />
-    );
+    return <LandingPage onGetStarted={() => navigate("/login")} />;
 }
 
 function LoginWrapper() {
     const navigate = useNavigate();
-
-    return (
-        <Login
-            onLogin={() => navigate("/dashboard", { replace: true })}
-        />
-    );
+    return <Login onLogin={() => navigate("/dashboard", { replace: true })} />;
 }
 
 /* ================= ROOT ================= */
-
 export default function App() {
-    return (
-        
-            <AppLayout />
-      
-    );
+    // No <BrowserRouter> here! 
+    // It is already wrapping <App /> in your main.jsx file.
+    return <AppLayout />;
 }

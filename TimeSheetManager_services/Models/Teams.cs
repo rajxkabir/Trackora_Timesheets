@@ -10,10 +10,10 @@ namespace TimeSheetManager_services.Models
 	{
 		[Key]
 		public int id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public string? TEAM_CODE { get; set; }
 
-		public string? TEAM_CODE { get; set; }
-
-		[Required]
+        [Required]
 		[StringLength(150)]
 		public string team_name { get; set; } = string.Empty;
 
