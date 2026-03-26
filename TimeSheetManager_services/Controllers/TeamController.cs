@@ -42,7 +42,7 @@ namespace TimeSheetManager_services.Controllers
                 {
                     return NotFound(new { message = "No teams found." });
                 }
-
+                    
                 return new JsonResult(teams, _jsonOptions);
             }
             catch (Exception ex)
