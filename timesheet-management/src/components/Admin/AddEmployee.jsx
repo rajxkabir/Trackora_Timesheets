@@ -30,7 +30,7 @@ export default function AddEmployeePage() {
         };
 
         try {
-            const response = await fetch("http://localhost:5289/api/Employee/add", {
+            const response = await fetch("https://localhost:7181/api/Employee/add", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),

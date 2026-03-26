@@ -14,18 +14,20 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 const navigation = [
     { id: "dashboard", name: "Dashboard", icon: LayoutDashboard },
-    { id: "timesheet", name: "Timesheet", icon: Clock },
+     { id: "employees", name: "Employees", icon: FileText },
+   
     { id: "projects", name: "Projects", icon: FolderKanban },
     { id: "team", name: "Team", icon: Users },
-    { id: "employees", name: "Employees", icon: FileText },
+     { id: "timesheet", name: "Timesheet", icon: Clock },
+   
 ];
 
 
-const recentProjects = [
-    { id: 1, name: "Website Redesign", color: "bg-accent", path: "/projects" },
-    { id: 2, name: "Mobile App", color: "bg-green-500", path: "/projects" },
-    { id: 3, name: "API Development", color: "bg-cyan-500", path: "/projects" },
-];
+// const recentProjects = [
+//     { id: 1, name: "Website Redesign", color: "bg-accent", path: "/projects" },
+//     { id: 2, name: "Mobile App", color: "bg-green-500", path: "/projects" },
+//     { id: 3, name: "API Development", color: "bg-cyan-500", path: "/projects" },
+// ];
 
 export function Sidebar({ isOpen }) {
     const navigate = useNavigate();
@@ -50,7 +52,7 @@ export function Sidebar({ isOpen }) {
             >
                 <div className="flex h-full flex-col">
 
-                    <div className="p-4">
+                    {/* <div className="p-4">
                         <Button
                             className="w-full gap-2 rounded-xl bg-foreground text-background hover:bg-foreground/90"
                             onClick={() => navigate("/add-employee")}
@@ -58,11 +60,11 @@ export function Sidebar({ isOpen }) {
                             <Plus className="w-4 h-4" />
                             New Entry
                         </Button>
-                    </div>
+                    </div> */}
 
                     <nav className="flex-1 space-y-1 px-3">
                         <div className="mb-2">
-                            <span className="px-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                            <span className="px-3 text-xs font-extrabold uppercase tracking-wider text-muted-foreground">
                                 Menu
                             </span>
                         </div>
@@ -96,7 +98,7 @@ export function Sidebar({ isOpen }) {
                         })}
                     </nav>
 
-                    <div className="border-t border-border/40 p-4">
+                    {/* <div className="border-t border-border/40 p-4">
                         <span className="mb-3 block px-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">
                             Recent Projects
                         </span>
@@ -115,9 +117,9 @@ export function Sidebar({ isOpen }) {
                                 </button>
                             ))}
                         </div>
-                    </div>
+                    </div> */}
 
-                    <div className="border-t border-border/40 p-4">
+                    {/* <div className="border-t border-border/40 p-4">
                         <button
                             onClick={() => navigate("/settings")}
                             className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary/50 hover:text-foreground"
@@ -125,7 +127,7 @@ export function Sidebar({ isOpen }) {
                             <Settings className="w-5 h-5" />
                             Settings
                         </button>
-                    </div>
+                    </div> */}
                 </div>
             </aside>
         </>
