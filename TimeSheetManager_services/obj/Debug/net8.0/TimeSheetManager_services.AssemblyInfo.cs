@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TimeSheetManager_services")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1f1bafcc1c9364ae9129a65090d7124128d8f229")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f1f5c75d9c424f32ec752d4f7171cc968dde88bb")]
 [assembly: System.Reflection.AssemblyProductAttribute("TimeSheetManager_services")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TimeSheetManager_services")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

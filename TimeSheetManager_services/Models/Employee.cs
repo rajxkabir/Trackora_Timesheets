@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+ 
 namespace TimeSheetManager_services.Models
 {
     public class Employee
@@ -19,10 +19,10 @@ namespace TimeSheetManager_services.Models
         public virtual Team? Team { get; set; } // Add this line
         public int? EMP_PROJECT_ID { get; set; }
         public DateTime? EMP_HIREDATE { get; set; }
-
+ 
         [Column(TypeName = "decimal(10,2)")]
         public decimal EMP_SALARY { get; set; }
-
+ 
         public string? EMP_STATUS { get; set; } = "ACTIVE";
         public DateTime? EMP_EXIT_DATE { get; set; }
         public string? EMP_ALT_PHONE { get; set; }
@@ -38,6 +38,6 @@ namespace TimeSheetManager_services.Models
         public DateTime? EMP_LAST_LOGIN { get; set; }
         public string? EMP_WORK_MODE { get; set; }
         public string? EMP_SHIFT { get; set; }
-
+ 
     }
 }
