@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using TimeSheetManager_services.Data;
 using TimeSheetManager_services.Models;
+using System.Text.Json;
 
 namespace TimeSheetManager_services.Controllers
 {
@@ -10,6 +11,8 @@ namespace TimeSheetManager_services.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        // Keep names EXACTLY like the C# Model (No camelCase conversion)
+        private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions { PropertyNamingPolicy = null };
 
         public EmployeeController(ApplicationDbContext context)
         {
@@ -17,83 +20,52 @@ namespace TimeSheetManager_services.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<ActionResult<IEnumerable<Employee>>> GetAllEmployees()
+        public async Task<IActionResult> GetAllEmployees()
         {
             try
             {
-                // Fetch all employees from the database
                 var employees = await _context.Employee.ToListAsync();
+
+                Console.WriteLine($"\n--- Fetching {employees.Count} Employees ---");
+                foreach (var emp in employees)
+                {
+                    Console.WriteLine($"Row: {emp.EMP_ID} | {emp.EMP_FIRSTNAME} {emp.EMP_LASTNAME}");
+                }
 
                 if (employees == null || !employees.Any())
                 {
                     return NotFound(new { message = "No employees found." });
                 }
 
-                return Ok(employees);
+                // Returning with specific options to maintain Uppercase property names
+                return new JsonResult(employees, _jsonOptions);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error retrieving employees: {ex.Message}");
-                return StatusCode(500, new
-                {
-                    message = "Internal server error while fetching employees.",
-                    details = ex.Message
-                });
+                Console.WriteLine($"Error: {ex.Message}");
+                return StatusCode(500, new { message = "Error fetching data", details = ex.Message });
             }
         }
 
         [HttpPost("add")]
         public async Task<IActionResult> AddEmployee([FromBody] Employee model)
         {
-            if (model == null)
-            {
-                return BadRequest(new { message = "Invalid employee data." });
-            }
+            if (model == null) return BadRequest(new { message = "Invalid data" });
 
             try
             {
-                // --- MANDATORY OVERRIDES ---
-                // Ensure the database handles the ID (Identity 5001,1)
-                model.EMP_ID = 0;
-
-                // Set default values if not provided by the frontend
+                model.EMP_ID = 0; // Let SQL Handle Identity
                 model.CREATED_AT = DateTime.Now;
                 model.UPDATED_AT = DateTime.Now;
-                model.EMP_STATUS = string.IsNullOrEmpty(model.EMP_STATUS) ? "ACTIVE" : model.EMP_STATUS;
 
-                // 1. Stage the data
                 _context.Employee.Add(model);
-
-                // 2. Push to SQL Server
                 await _context.SaveChangesAsync();
 
-                Console.WriteLine($"Successfully saved: {model.EMP_FIRSTNAME} (ID: {model.EMP_ID})");
-
-                return Ok(new
-                {
-                    message = "Employee added successfully!",
-                    employeeId = model.EMP_ID
-                });
-            }
-            catch (DbUpdateException ex)
-            {
-                // Catching specific SQL errors (Duplicates, Constraint violations)
-                var sqlError = ex.InnerException?.Message ?? ex.Message;
-                Console.WriteLine($"DB Conflict: {sqlError}");
-                return Conflict(new
-                {
-                    message = "Database error. Check for duplicate Email or Phone.",
-                    details = sqlError
-                });
+                return Ok(new { message = "Saved!", employeeId = model.EMP_ID });
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Fatal Error: {ex.Message}");
-                return StatusCode(500, new
-                {
-                    message = "Internal server error.",
-                    details = ex.Message
-                });
+                return StatusCode(500, new { details = ex.Message });
             }
         }
     }

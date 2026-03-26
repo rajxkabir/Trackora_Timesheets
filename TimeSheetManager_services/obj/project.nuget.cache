@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "4Xti6XuVryA=",
+  "dgSpecHash": "Ytqxl9BJVtU=",
   "success": true,
-  "projectFilePath": "C:\\Users\\uniqu\\Desktop\\Sessions Collection\\React Practice\\Projects\\TimeSheet_Management\\TimeSheetManager_services\\TimeSheetManager_services.csproj",
+  "projectFilePath": "C:\\Users\\uniqu\\Desktop\\Sessions Collection\\React Practice\\Projects\\Trackora_Timesheets\\TimeSheetManager_services\\TimeSheetManager_services.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\uniqu\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\uniqu\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

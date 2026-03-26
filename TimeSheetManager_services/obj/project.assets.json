@@ -4458,11 +4458,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\uniqu\\Desktop\\Sessions Collection\\React Practice\\Projects\\TimeSheet_Management\\TimeSheetManager_services\\TimeSheetManager_services.csproj",
+      "projectUniqueName": "C:\\Users\\uniqu\\Desktop\\Sessions Collection\\React Practice\\Projects\\Trackora_Timesheets\\TimeSheetManager_services\\TimeSheetManager_services.csproj",
       "projectName": "TimeSheetManager_services",
-      "projectPath": "C:\\Users\\uniqu\\Desktop\\Sessions Collection\\React Practice\\Projects\\TimeSheet_Management\\TimeSheetManager_services\\TimeSheetManager_services.csproj",
+      "projectPath": "C:\\Users\\uniqu\\Desktop\\Sessions Collection\\React Practice\\Projects\\Trackora_Timesheets\\TimeSheetManager_services\\TimeSheetManager_services.csproj",
       "packagesPath": "C:\\Users\\uniqu\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\uniqu\\Desktop\\Sessions Collection\\React Practice\\Projects\\TimeSheet_Management\\TimeSheetManager_services\\obj\\",
+      "outputPath": "C:\\Users\\uniqu\\Desktop\\Sessions Collection\\React Practice\\Projects\\Trackora_Timesheets\\TimeSheetManager_services\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
