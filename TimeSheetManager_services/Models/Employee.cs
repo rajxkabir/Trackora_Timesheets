@@ -15,6 +15,8 @@ namespace TimeSheetManager_services.Models
         public string? EMP_FIRSTNAME { get; set; }
         public string? EMP_LASTNAME { get; set; }
         public int? EMP_TEAM_ID { get; set; }
+        [ForeignKey("EMP_TEAM_ID")]
+        public virtual Team? Team { get; set; } // Add this line
         public int? EMP_PROJECT_ID { get; set; }
         public DateTime? EMP_HIREDATE { get; set; }
 

@@ -1,25 +1,38 @@
-﻿    using global::TimeSheetManager_services.Models;
-    using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using TimeSheetManager_services.Models;
 
-    namespace TimeSheetManager_services.Data
+namespace TimeSheetManager_services.Data
+{
+    public class ApplicationDbContext : DbContext
     {
-        public class ApplicationDbContext : DbContext
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
         {
-            public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-                : base(options)
-            {
-            }
+        }
 
-            // This links your C# 'Employee' class to the 'Employees' table in SQL
-            public DbSet<Employee> Employee { get; set; }
+        public DbSet<Employee> Employee { get; set; }
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<Team> Teams { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Always call the base method first
             base.OnModelCreating(modelBuilder);
+
+            // 1. Explicitly Map the Team <-> Members relationship
+            // This stops EF from looking for the non-existent 'Teamid' column
             modelBuilder.Entity<Employee>()
-                .ToTable(tb => tb.HasTrigger("SomeTriggerName"));
-            // "SomeTriggerName" can be anything; it just lets EF know a trigger exists.
+                .HasOne(e => e.Team)
+                .WithMany(t => t.Members)
+                .HasForeignKey(e => e.EMP_TEAM_ID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // 2. Map the Team Lead relationship
+            modelBuilder.Entity<Team>()
+                .HasOne(t => t.TeamLead)
+                .WithMany()
+                .HasForeignKey(t => t.team_lead_id)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
-    }
-
+}
